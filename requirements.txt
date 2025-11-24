@@ -1,0 +1,7 @@
+Projenin çalışması için gereken kütüphaneler:
+
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
