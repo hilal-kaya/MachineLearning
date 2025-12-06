@@ -17,7 +17,7 @@ def clean_reviews(x):
 Temizlenen veriyi Seaborn ve Matplotlib kullanarak görselleştirdim. Maaş ve puan arasında linear bir ilişki var mı diye baktım. Sonuçlar biraz şaşırtıcıydı çünkü çok maaş veren 
 şirketlerin hep çok yüksek puanı yoktu. 
 
-İki farklı stratejiyle makine öğrenmesi denemesi yaptım ama ilki olan linear regression ile hiçbir sonuç alamadım. Bunun üzerine Random Forest Classifier yöntemini kullandım:
+Farklı stratejilerle makine öğrenmesi denemesi yaptım ama ilki olan linear regression ile hiçbir sonuç alamadım. Bunun üzerine Random Forest Classifier yöntemini kullandım:
 
 y_class = (df_clean['RATING'] >= 3.8).astype(int) 
 rf_class = RandomForestClassifier(n_estimators=100)
@@ -26,6 +26,26 @@ rf_class.fit(X_train, y_train)
 Bu yöntemle iyi şirketlere (puanı 3.8 ve üzeri) -> 1
 diğer şirketlere -> 0 dedim. 
 
-Bu proje bana özellikle gerçek hayat verilerinin her zaman linear olmadığını doğru soruyu sormanın sormanın model başarısını nasıl değiştirdiğini öğretti. 
+Projenin ilk aşamasında basit bir `Linear Regression` modeli kurdum ancak R² skoru (başarı oranı) oldukça düşüktü. "Acaba veriler arasında doğrusal olmayan (non-linear) karmaşık ilişkiler mi var?" sorusundan yola çıkarak daha gelişmiş ağaç tabanlı modelleri denemeye karar verdim.
+
+Aşağıdaki kod bloğunda Linear Regression,Decision Tree ve Random Forest modellerini aynı veri seti üzerinde yarıştırdım:
+
+models = {
+    "Linear Regression": LinearRegression(),
+    "Decision Tree": DecisionTreeRegressor(max_depth=5),
+    "Random Forest": RandomForestRegressor(n_estimators=50, max_depth=10)
+}
+
+# Modelleri döngü ile eğitip test ettim
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    score = model.score(X_test, y_test)
+    print(f"{name} R2 Score: {score}")
+
+Random Forest modelinin performansı digerlerine göre 10 kat daha iyi olsa da genel skor hala düşük seviyede.
+Bu durum veri bilimi açısından çok önemli bir gerçeği ortaya koyuyor:
+
+Bir şirketin çalışan memnuniyeti (Rating); sadece Maaş, Şirket Yaşı veya Tanınırlık gibi sayısal verilerle tam olarak tahmin edilemez.
+Bu proje bana özellikle gerçek hayat verilerinin her zaman linear olmadığını doğru soruyu sormanın sormanın model başarısını nasıl değiştirdiğini de öğretti. 
 
 İncelediğiniz için teşekkür ederim :)
