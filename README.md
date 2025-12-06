@@ -36,7 +36,7 @@ models = {
     "Random Forest": RandomForestRegressor(n_estimators=50, max_depth=10)
 }
 
-# Modelleri döngü ile eğitip test ettim
+Modelleri döngü ile eğitip test ettim
 for name, model in models.items():
     model.fit(X_train, y_train)
     score = model.score(X_test, y_test)
