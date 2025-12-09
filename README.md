@@ -1,4 +1,4 @@
-<img width="515" height="472" alt="image" src="https://github.com/user-attachments/assets/ec58c5e3-cdd3-4b37-824a-705c97be900d" /><img width="800" height="400" alt="image" src="https://github.com/user-attachments/assets/3176cda8-cc70-40db-8d66-a04e6b8a0345" /># 🇮🇳 Hint Şirketleri Veri Analizi ve ML Projesi
+# 🇮🇳 Hint Şirketleri Veri Analizi ve ML Projesi
 
 Bu projede 10.000 satırlık Hint şirketleri veri setini inceledim. Amacım şirketlerin yaşı, verdiği maaş ve yorum sayılarına bakarak o şirketlerin çalışanlar tarafından ne kadar
 sevildiğini tahmin eden bir model geliştirmekti.
