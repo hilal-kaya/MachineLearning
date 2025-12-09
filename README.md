@@ -8,10 +8,21 @@ Veri seti oldukça karmaşıktı. Özellikle maaş ve yorum sayılarında '1.1L'
 Önce pandas ile veri temizliği yaptım.  
 Aşağıdaki fonksiyon da veri temizliğinden önemli bir kesit.
 
+// 'REVIEWS'sütununu temizleme (k = 1000, L = 100000 dönüşümü)
 def clean_reviews(x):
-    if 'L' in x: return float(x.replace('L', '')) * 100000  # Lakh dönüşümü
-    elif 'k' in x: return float(x.replace('k', '')) * 1000  # Bin dönüşümü
-    return float(x)
+    if pd.isna(x):
+        return np.nan
+    x = str(x).replace('(', '').replace(')', '')
+    if 'L' in x:
+        return float(x.replace('L', '')) * 100000
+    elif 'k' in x:
+        return float( x.replace('k', '')) * 1000
+    else:
+        try:
+            return float(x)
+        except:
+            return np.nan
+df_clean['REVIEWS'] = df_clean['REVIEWS'].apply(clean_reviews)
 
 Temizlenen veriyi Seaborn ve Matplotlib kullanarak görselleştirdim. Maaş ve puan arasında linear bir ilişki var mı diye baktım. Sonuçlar biraz şaşırtıcıydı çünkü çok maaş veren 
 şirketlerin hep çok yüksek puanı yoktu. Hangi feature daha çok etkiledi merak ettim ve sonuç aşağıda:
@@ -22,9 +33,15 @@ blob:https://colab.research.google.com/83c8cdf8-a7aa-4c64-b012-57abf7f310b6<img 
 # Model Performansı
 Projenin ilk aşamasında basit bir `Linear Regression` modeli kurdum ancak R² skoru (başarı oranı) çok düşüktü. 'Acaba veriler arasında doğrusal olmayan (non-linear) karmaşık ilişkiler mi var?' sorusundan yola çıkarak daha gelişmiş ağaç tabanlı modelleri denemeye karar verdim. Bunun üzerine Random Forest Classifier yöntemini kullandım:
 
-y_class = (df_clean['RATING'] >= 3.8).astype(int) 
-rf_class = RandomForestClassifier(n_estimators=100)
-rf_class.fit(X_train, y_train)
+// Hedef değişkeni kategoriye cevirme
+y_class = (df_clean['RATING'] >= 3.8).astype(int)
+
+// Yeni eğitim/test setleri (X aynı kalıyor, y değişti)
+X_train_c, X_test_c, y_train_c, y_test_c = train_test_split(X, y_class, test_size=0.2, random_state=42)
+
+// Sınıflandırma Modeli
+rf_class = RandomForestClassifier(n_estimators=100 , random_state=42)
+rf_class.fit(X_train_c, y_train_c)
 
 Bu yöntemle iyi şirketlere (puanı 3.8 ve üzeri) -> 1
 diğer şirketlere -> 0 dedim. 
