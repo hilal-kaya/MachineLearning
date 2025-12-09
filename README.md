@@ -54,7 +54,7 @@ for name, model in models.items():
 
 blob:https://colab.research.google.com/2eb082a4-4e35-41b5-bc89-37b9a39f136a<img width="600" height="500" alt="image" src="https://github.com/user-attachments/assets/f826b87f-2538-447f-bc76-cf37ae810a07" />
 
-<img width="1416" height="300" alt="image" src="https://github.com/user-attachments/assets/780e5b80-fc20-4b92-b67c-beb7873dd2b7" />
+<img width="1416" height="400" alt="image" src="https://github.com/user-attachments/assets/780e5b80-fc20-4b92-b67c-beb7873dd2b7" />
 
 # Sonuç
 Random Forest modelinin performansı digerlerine göre 10 kat daha iyi olsa da genel skor hala düşük seviyede.
